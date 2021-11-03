@@ -1,122 +1,47 @@
+import data from './data'
 
 function App() {
   return (
     <>
-      <div class="grid-container">
-    <header class="row">
+      <div className="grid-container">
+    <header className="row">
       <div>
-        <a class="brand" href="index.html">Amazona</a>
+        <a className="brand" href="/">Amazona</a>
       </div>
       <div>
-        <a href="cart.html">Cart</a>
-        <a href="signin.html"></a>
+        <a href="/cart" alt="">Cart</a>
+        <a href="/signin" alt="">Sign In</a>
       </div>
     </header>
     <main>
-      <div class="row center">
-        <div class="card">
-          <a href="product.html">
-              <img class="medium" src="./images/p1.jpg" alt="product" />
-          </a>
-          <div class="card-body">
-            <a href="product.html">
-              <h2>Nike Slim Shirt</h2>
-            </a>
-            <div class="rating">
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
+      <div className="row center">
+        {
+          data.products.map(item => (
+            <div key={item._id} className="card">
+              <a href={`product/${item._id}`}>
+                  <img className="medium" src={item.image} alt={item.name} />
+              </a>
+              <div className="card-body">
+                <a href={`product/${item._id}`}>
+                  <h2>{item.name}</h2>
+                </a>
+                <div className="rating">
+                    <span> <i className="fa fa-star"></i> </span>
+                    <span> <i className="fa fa-star"></i> </span>
+                    <span> <i className="fa fa-star"></i> </span>
+                    <span> <i className="fa fa-star"></i> </span>
+                    <span> <i className="fa fa-star"></i> </span>
+                </div>
+                <div className="price">
+                    ${item.price}
+                </div>
+              </div>
             </div>
-            <div class="price">
-                $120
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <a href="product.html">
-              <img class="medium" src="./images/p1.jpg" alt="product" />
-          </a>
-          <div class="card-body">
-            <a href="product.html">
-              <h2>Nike Slim Shirt</h2>
-            </a>
-            <div class="rating">
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-            </div>
-            <div class="price">
-                $120
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <a href="product.html">
-              <img class="medium" src="./images/p1.jpg" alt="product" />
-          </a>
-          <div class="card-body">
-            <a href="product.html">
-              <h2>Nike Slim Shirt</h2>
-            </a>
-            <div class="rating">
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-            </div>
-            <div class="price">
-                $120
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <a href="product.html">
-              <img class="medium" src="./images/p1.jpg" alt="product" />
-          </a>
-          <div class="card-body">
-            <a href="product.html">
-              <h2>Nike Slim Shirt</h2>
-            </a>
-            <div class="rating">
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-            </div>
-            <div class="price">
-                $120
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <a href="product.html">
-              <img class="medium" src="./images/p1.jpg" alt="product" />
-          </a>
-          <div class="card-body">
-            <a href="product.html">
-              <h2>Nike Slim Shirt</h2>
-            </a>
-            <div class="rating">
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-                <span> <i class="fa fa-star"></i> </span>
-            </div>
-            <div class="price">
-                $120
-            </div>
-          </div>
-        </div>
+          ))
+        }
       </div>
     </main>
-    <footer class="row center">
+    <footer className="row center">
         All rights reserved
     </footer>
   </div>
