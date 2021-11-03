@@ -4,6 +4,7 @@ import Axios from "axios";
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ productId, qty }, thunkAPI) => {
+    console.log(productId, qty);
     const { data } = await Axios.get(`/api/products/${productId}`);
     return {
       name: data.name,
@@ -39,11 +40,10 @@ const options = {
       const item = action.payload;
       const itemIndex = state.cart.findIndex((x) => x.product === item.product);
       if (itemIndex !== -1) {
-        state.cart[itemIndex].qty += action.payload.qty;
+        state.cart[itemIndex].qty = action.payload.qty;
       } else {
         state.cart.push(action.payload);
       }
-      // localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     [addToCart.rejected]: (state, action) => {
       state.error = true;
