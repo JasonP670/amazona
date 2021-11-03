@@ -1,73 +1,78 @@
 const data = {
-  products: 
-  [
+  products: [
     {
-      _id: 1,
-      name: 'Nike Slim Shirt',
-      category: 'Shirt',
-      image: '/images/p1.jpg',
+      _id: "1",
+      name: "Nike Slim Shirt",
+      category: "Shirt",
+      image: "/images/p1.jpg",
       price: 120,
-      brand: 'Nike',
+      countInStock: 10,
+      brand: "Nike",
       rating: 4.5,
       numReviews: 10,
-      description: 'High quality product'
+      description: "High quality product",
     },
     {
-      _id: 2,
-      name: 'Adidas Fit Shirt',
-      category: 'Shirt',
-      image: '/images/p2.jpg',
+      _id: "2",
+      name: "Adidas Fit Shirt",
+      category: "Shirt",
+      image: "/images/p2.jpg",
       price: 100,
-      brand: 'Adidas',
+      countInStock: 20,
+      brand: "Adidas",
       rating: 4.0,
       numReviews: 10,
-      description: 'High quality product'
+      description: "High quality product",
     },
     {
-      _id: 3,
-      name: 'Lacoste Slim Shirt',
-      category: 'Shirt',
-      image: '/images/p3.jpg',
+      _id: "3",
+      name: "Lacoste Slim Shirt",
+      category: "Shirt",
+      image: "/images/p3.jpg",
       price: 220,
-      brand: 'Lacoste',
+      countInStock: 0,
+      brand: "Lacoste",
       rating: 4.8,
-      numReviews: 17 ,
-      description: 'High quality product'
+      numReviews: 17,
+      description: "High quality product",
     },
     {
-      _id: 4,
-      name: 'Nike Slim Pant',
-      category: 'Pants',
-      image: '/images/p4.jpg',
+      _id: "4",
+      name: "Nike Slim Pant",
+      category: "Pants",
+      image: "/images/p4.jpg",
       price: 78,
-      brand: 'Nike',
+      countInStock: 15,
+      brand: "Nike",
       rating: 4.5,
       numReviews: 10,
-      description: 'High quality product'
+      description: "High quality product",
     },
     {
-      _id: 5,
-      name: 'Puma Slim Pant',
-      category: 'Pants',
-      image: '/images/p5.jpg',
+      _id: "5",
+      name: "Puma Slim Pant",
+      category: "Pants",
+      image: "/images/p5.jpg",
       price: 65,
-      brand: 'Puma',
+      countInStock: 5,
+      brand: "Puma",
       rating: 4.5,
       numReviews: 10,
-      description: 'High quality product'
+      description: "High quality product",
     },
     {
-      _id: 6,
-      name: 'Adidas Slim Pant',
-      category: 'Pants',
-      image: '/images/p6.jpg',
+      _id: "6",
+      name: "Adidas Slim Pant",
+      category: "Pants",
+      image: "/images/p6.jpg",
       price: 139,
-      brand: 'Adidas',
+      countInStock: 12,
+      brand: "Adidas",
       rating: 4.5,
       numReviews: 50,
-      description: 'High quality product'
-    }
-  ]
-}
+      description: "High quality product",
+    },
+  ],
+};
 
-export default data
+export default data;
