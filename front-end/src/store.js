@@ -1,30 +1,37 @@
-// import { applyMiddleware, combineReducers, createStore } from "redux";
-// import { compose } from "redux";
-// import thunk from "redux-thunk";
-// import { productListReducer } from "./reducers/productReducers";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import productListReducer from "./slices/productListSlice";
 import productDetailsReducer from "./slices/productDetailsSlice";
+import cartReducer from "./slices/cartSlice";
 
-// const initialState = {};
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
-// const reducer = combineReducers({
-//   productList: productListReducer,
-// });
-// const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-// const store = createStore(
-//   reducer,
-//   initialState,
-//   composeEnhancer(applyMiddleware(thunk))
-// );
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
-// export default store;
+const persistedCartReducer = persistReducer(persistConfig, cartReducer);
 
 const store = configureStore({
   reducer: {
     productList: productListReducer,
     productDetails: productDetailsReducer,
+    cart: persistedCartReducer,
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 });
 
 export default store;

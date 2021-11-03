@@ -19,7 +19,6 @@ export default function ProductScreen(props) {
   useEffect(() => {
     dispatch(getProductDetails(productId));
   }, [dispatch, productId]);
-  console.log(product);
   if (!product) {
     return <div>Product Not Found</div>;
   }
