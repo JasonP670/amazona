@@ -4,6 +4,7 @@
 // import { productListReducer } from "./reducers/productReducers";
 import { configureStore } from "@reduxjs/toolkit";
 import productListReducer from "./slices/productListSlice";
+import productDetailsReducer from "./slices/productDetailsSlice";
 
 // const initialState = {};
 
@@ -22,6 +23,7 @@ import productListReducer from "./slices/productListSlice";
 const store = configureStore({
   reducer: {
     productList: productListReducer,
+    productDetails: productDetailsReducer,
   },
 });
 

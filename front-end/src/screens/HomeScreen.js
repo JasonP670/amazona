@@ -9,7 +9,6 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   const productList = useSelector(selectProductList);
   const { isLoading, error, products } = productList;
-  console.log(productList);
   useEffect(() => {
     dispatch(getProductList());
   }, [dispatch]);

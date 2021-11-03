@@ -6,7 +6,6 @@ export const getProductList = createAsyncThunk(
   "productList/getProductList",
   async () => {
     const { data } = await Axios.get("/api/products");
-    console.log(data);
     return data;
   }
 );
@@ -29,7 +28,6 @@ const options = {
     [getProductList.fulfilled]: (state, action) => {
       state.error = false;
       state.isLoading = false;
-      console.log(action.payload);
       state.products = action.payload;
     },
     [getProductList.rejected]: (state, action) => {
