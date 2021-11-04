@@ -4,7 +4,6 @@ import Axios from "axios";
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ productId, qty }, thunkAPI) => {
-    console.log(productId, qty);
     const { data } = await Axios.get(`/api/products/${productId}`);
     return {
       name: data.name,
@@ -28,7 +27,11 @@ const initialState = {
 const options = {
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    removeFromCart: (state, action) => {
+      state.cart = state.cart.filter((x) => x.product !== action.payload);
+    },
+  },
   extraReducers: {
     [addToCart.pending]: (state, action) => {
       state.error = false;
@@ -56,3 +59,4 @@ const cartSlice = createSlice(options);
 export default cartSlice.reducer;
 export const selectCart = (state) => state.cart;
 export const selectShoppingCart = (state) => state.cart.cart;
+export const { removeFromCart } = cartSlice.actions;

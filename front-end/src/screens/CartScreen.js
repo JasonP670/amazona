@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, selectShoppingCart } from "../slices/cartSlice";
+import {
+  addToCart,
+  removeFromCart,
+  selectShoppingCart,
+} from "../slices/cartSlice";
 import MessageBox from "../components/MessageBox";
 import { Link } from "react-router-dom";
 
@@ -10,7 +14,6 @@ export default function CartScreen(props) {
     ? Number(props.location.search.split("=")[1])
     : 1;
   const cart = useSelector(selectShoppingCart);
-  console.log(cart);
   const dispatch = useDispatch();
   useEffect(() => {
     if (productId) {
@@ -19,7 +22,7 @@ export default function CartScreen(props) {
   }, [dispatch, productId, qty]);
 
   const removeFromCartHandler = (id) => {
-    // delete action
+    dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
@@ -39,7 +42,6 @@ export default function CartScreen(props) {
               <li key={index}>
                 <div className="row">
                   <div>
-                    {console.log(item)}
                     <img src={item.image} alt={item.name} className="small" />
                   </div>
                   <div className="min-30">
