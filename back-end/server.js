@@ -1,23 +1,18 @@
+require("dotenv").config();
 const express = require("express");
+
+const PORT = process.env.PORT || 5000;
+
 const app = express();
-// const data = require("./data.js");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const userRouter = require("./routers/userRouter");
 const productRouter = require("./routers/productRouter");
 
-const PORT = process.env.PORT || 5000;
-
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
-
-// app.get("/api/products/:id", (req, res) => {
-//   const product = data.products.find((x) => x._id === req.params.id);
-//   if (!product) {
-//     res.status(404).send({ message: "Product Not Found" });
-//   }
-//   res.status(200).send(product);
-// });
 
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);

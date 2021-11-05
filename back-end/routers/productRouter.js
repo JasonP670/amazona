@@ -22,13 +22,10 @@ productRouter.get(
 productRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
-    const product = await Product.findAll({
-      where: {
-        id: req.params.id,
-      },
-    });
+    const product = await Product.findByPk(req.params.id);
 
     if (product) {
+      console.log(product);
       res.send(product);
     } else {
       res.status(404).send({ message: "Product not found" });

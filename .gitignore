@@ -4,3 +4,7 @@ front-end/package-lock.json
 front-end/yarn.lock
 front-end/src/index.css
 .gitignore
+back-end/.env
+front-end/yarn.lock
+front-end/package-lock.json
+.env
