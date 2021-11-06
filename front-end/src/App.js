@@ -2,6 +2,7 @@ import { BrowserRouter, Link, Route } from "react-router-dom";
 import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 import { clearCart, selectShoppingCart } from "./slices/cartSlice";
 import { useSelector } from "react-redux";
 import SigninScreen from "./screens/SigninScreen";
@@ -38,7 +39,7 @@ function App() {
             {name ? (
               <div className="dropdown">
                 <Link to="#">
-                  {name} <i className="fa fa-carret-down"></i>{" "}
+                  {name} <i className="fas fa-caret-down"></i>{" "}
                 </Link>
                 <ul className="dropdown-content">
                   <Link to="#signout" onClick={signoutHandler}>
@@ -55,6 +56,7 @@ function App() {
           <Route path="/product/:id" component={ProductScreen}></Route>
           <Route path="/" component={HomeScreen} exact></Route>
           <Route path="/signin" component={SigninScreen}></Route>
+          <Route path="/register" component={RegisterScreen}></Route>
           <Route path="/cart/:id?" component={CartScreen}></Route>
         </main>
         <footer className="row center">All rights reserved</footer>

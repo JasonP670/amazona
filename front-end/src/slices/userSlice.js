@@ -12,6 +12,18 @@ export const signin = createAsyncThunk(
   }
 );
 
+export const register = createAsyncThunk(
+  "user/register",
+  async ({ name, email, password }) => {
+    const { data } = await Axios.post("/api/users/register", {
+      name,
+      email,
+      password,
+    });
+    return data;
+  }
+);
+
 const options = {
   name: "user",
   initialState: {
@@ -39,6 +51,20 @@ const options = {
       localStorage.setItem("user", JSON.stringify(action.payload));
     },
     [signin.rejected]: (state, action) => {
+      state.error = true;
+      state.loading = false;
+    },
+    [register.pending]: (state, action) => {
+      state.error = false;
+      state.loading = true;
+    },
+    [register.fulfilled]: (state, action) => {
+      state.error = false;
+      state.loading = false;
+      state.userData = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload));
+    },
+    [register.rejected]: (state, action) => {
       state.error = true;
       state.loading = false;
     },
