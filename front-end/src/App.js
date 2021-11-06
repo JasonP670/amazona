@@ -3,12 +3,17 @@ import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import { clearCart, selectShoppingCart } from "./slices/cartSlice";
+import {
+  clearCart,
+  removeShippingAddress,
+  selectShoppingCart,
+} from "./slices/cartSlice";
 import { useSelector } from "react-redux";
 import SigninScreen from "./screens/SigninScreen";
 import { selectUserData, signout } from "./slices/userSlice";
 import { useDispatch } from "react-redux";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 
 function App() {
   const cart = useSelector(selectShoppingCart);
@@ -22,6 +27,7 @@ function App() {
   const signoutHandler = () => {
     dispatch(signout());
     dispatch(clearCart());
+    dispatch(removeShippingAddress());
   };
   return (
     <BrowserRouter>
@@ -60,6 +66,7 @@ function App() {
           <Route path="/register" component={RegisterScreen}></Route>
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/shipping" component={ShippingAddressScreen}></Route>
+          <Route path="/payment" component={PaymentMethodScreen}></Route>
         </main>
         <footer className="row center">All rights reserved</footer>
       </div>

@@ -10,7 +10,7 @@ export const addToCart = createAsyncThunk(
       image: data.image,
       price: data.price,
       countInStock: data.countInStock,
-      product: data._id,
+      product: data.id,
       qty: qty,
     };
   }
@@ -23,6 +23,7 @@ const initialState = {
   shippingAddress: localStorage.getItem("shippingAddress")
     ? JSON.parse(localStorage.getItem("shippingAddress"))
     : {},
+  paymentMethod: "PayPal",
   error: false,
   isLoading: false,
 };
@@ -40,6 +41,13 @@ const options = {
     },
     saveShippingAddress: (state, action) => {
       state.shippingAddress = action.payload;
+    },
+    removeShippingAddress: (state) => {
+      state.shippingAddress = {};
+      localStorage.removeItem("shippingAddress");
+    },
+    savePaymentMethod: (state, action) => {
+      state.paymentMethod = action.payload;
     },
   },
   extraReducers: {
@@ -70,5 +78,10 @@ export default cartSlice.reducer;
 export const selectCart = (state) => state.cart;
 export const selectShoppingCart = (state) => state.cart.cart;
 export const selectShippingAddress = (state) => state.cart.shippingAddress;
-export const { removeFromCart, clearCart, saveShippingAddress } =
-  cartSlice.actions;
+export const {
+  removeFromCart,
+  clearCart,
+  saveShippingAddress,
+  savePaymentMethod,
+  removeShippingAddress,
+} = cartSlice.actions;

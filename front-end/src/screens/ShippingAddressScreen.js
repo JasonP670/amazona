@@ -4,23 +4,25 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   saveShippingAddress,
+  selectCart,
   selectShippingAddress,
-  selectShoppingAddress,
 } from "../slices/cartSlice";
 import { selectUserData } from "../slices/userSlice";
 
 export default function ShippingAddressScreen(props) {
   const userInfo = useSelector(selectUserData);
-  if (!userInfo) {
+  const { cart } = useSelector(selectCart);
+  console.log(cart);
+  if (!userInfo || cart.length === 0) {
     props.history.push("/signin");
   }
 
-  const shippingAddresss = useSelector(selectShippingAddress);
-  const [fullName, setFullName] = useState(shippingAddresss.fullName);
-  const [address, setAddress] = useState(shippingAddresss.address);
-  const [city, setCity] = useState(shippingAddresss.city);
-  const [postalCode, setPostalCode] = useState(shippingAddresss.postalCode);
-  const [country, setCountry] = useState(shippingAddresss.country);
+  const shippingAddress = useSelector(selectShippingAddress);
+  const [fullName, setFullName] = useState(shippingAddress.fullName);
+  const [address, setAddress] = useState(shippingAddress.address);
+  const [city, setCity] = useState(shippingAddress.city);
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+  const [country, setCountry] = useState(shippingAddress.country);
 
   const dispatch = useDispatch();
   const submitHandler = (e) => {
