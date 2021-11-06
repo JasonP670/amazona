@@ -29,7 +29,7 @@ export default function ProductScreen(props) {
     <>
       <div>
         {isLoading ? (
-          <LoadingBox></LoadingBox>
+          <LoadingBox variant="large"></LoadingBox>
         ) : error ? (
           <MessageBox variant="danger">
             The product could not be found

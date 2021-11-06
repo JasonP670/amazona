@@ -31,6 +31,10 @@ const options = {
     removeFromCart: (state, action) => {
       state.cart = state.cart.filter((x) => x.product !== action.payload);
     },
+    clearCart: (state, action) => {
+      localStorage.removeItem("persist:cart");
+      state.cart = [];
+    },
   },
   extraReducers: {
     [addToCart.pending]: (state, action) => {
@@ -59,4 +63,4 @@ const cartSlice = createSlice(options);
 export default cartSlice.reducer;
 export const selectCart = (state) => state.cart;
 export const selectShoppingCart = (state) => state.cart.cart;
-export const { removeFromCart } = cartSlice.actions;
+export const { removeFromCart, clearCart } = cartSlice.actions;

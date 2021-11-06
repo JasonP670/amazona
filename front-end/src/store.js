@@ -2,6 +2,8 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import productListReducer from "./slices/productListSlice";
 import productDetailsReducer from "./slices/productDetailsSlice";
 import cartReducer from "./slices/cartSlice";
+import userReducer from "./slices/userSlice";
+import { userSigninReducer } from "./reducers/userReducer";
 
 import {
   persistReducer,
@@ -15,17 +17,26 @@ import {
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
-  key: "root",
+  key: "cart",
   storage,
 };
 
+// const userPersistConfig = {
+//   key: "user",
+//   storage,
+//   whitelist: ["token"],
+// };
+
 const persistedCartReducer = persistReducer(persistConfig, cartReducer);
+// const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
 
 const store = configureStore({
   reducer: {
     productList: productListReducer,
     productDetails: productDetailsReducer,
     cart: persistedCartReducer,
+    user: userReducer,
+    // userSignin: userSigninReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

@@ -15,7 +15,7 @@ export default function HomeScreen() {
   return (
     <div>
       {isLoading ? (
-        <LoadingBox></LoadingBox>
+        <LoadingBox variant="large"></LoadingBox>
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (

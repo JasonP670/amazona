@@ -11,7 +11,7 @@ const userRouter = require("./routers/userRouter");
 const productRouter = require("./routers/productRouter");
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send({ message: "Hello World" });
 });
 
 app.use("/api/users", userRouter);
