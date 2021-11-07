@@ -14,6 +14,7 @@ import { selectUserData, signout } from "./slices/userSlice";
 import { useDispatch } from "react-redux";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 
 function App() {
   const cart = useSelector(selectShoppingCart);
@@ -67,6 +68,7 @@ function App() {
           <Route path="/cart/:id?" component={CartScreen}></Route>
           <Route path="/shipping" component={ShippingAddressScreen}></Route>
           <Route path="/payment" component={PaymentMethodScreen}></Route>
+          <Route path="/placeorder" component={PlaceOrderScreen}></Route>
         </main>
         <footer className="row center">All rights reserved</footer>
       </div>
