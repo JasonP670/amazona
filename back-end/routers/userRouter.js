@@ -8,6 +8,7 @@ const userRouter = express.Router();
 const db = require("../models");
 const generateToken = require("../utils");
 const User = db.User;
+const UserAddress = db.User_address;
 
 userRouter.get(
   "/seed",
@@ -65,6 +66,58 @@ userRouter.post(
         token: generateToken(user),
       });
     }
+  })
+);
+
+userRouter.get(
+  "/address",
+  expressAsyncHandler(async (req, res) => {
+    UserAddress.findAll().then((address) => res.json(address));
+  })
+);
+
+userRouter.get(
+  "/address/:id",
+  expressAsyncHandler(async (req, res) => {
+    UserAddress.findAll({
+      include: [
+        {
+          model: User,
+          where: { id: req.params.id },
+        },
+      ],
+    }).then((results) => {
+      res.send(results);
+    });
+  })
+);
+
+userRouter.post(
+  "/address",
+  expressAsyncHandler(async (req, res) => {
+    const checkExist = await User.findOne({ where: { id: req.body.userId } });
+    if (!checkExist) {
+      res.status(404).send({ message: "That user doesn't seem to exist" });
+    }
+    const address = await UserAddress.create({
+      user_id: req.body.userId,
+      full_name: req.body.fullName,
+      address_line1: req.body.addressLine1,
+      address_line2: req.body.addressLine2,
+      city: req.body.city,
+      postal_code: req.body.postalCode,
+      country: req.body.country,
+    });
+    console.log(address);
+    res.status(200).send({
+      id: address.id,
+      fullName: address.full_name,
+      addressLine1: address.address_line1,
+      addressLine2: address.address_line2,
+      city: address.city,
+      postalCode: address.postal_code,
+      country: address.country,
+    });
   })
 );
 
