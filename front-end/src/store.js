@@ -3,7 +3,6 @@ import productListReducer from "./slices/productListSlice";
 import productDetailsReducer from "./slices/productDetailsSlice";
 import cartReducer from "./slices/cartSlice";
 import userReducer from "./slices/userSlice";
-import { userSigninReducer } from "./reducers/userReducer";
 
 import {
   persistReducer,
@@ -15,6 +14,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import userAddressReducer from "./slices/userAddressSlice";
 
 const persistConfig = {
   key: "cart",

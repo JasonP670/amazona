@@ -1,10 +1,7 @@
 import React from "react";
 import CheckoutSteps from "../components/CheckoutSteps";
-import { useSelector } from "react-redux";
-import cartSlice, {
-  selectCart,
-  selectShippingAddress,
-} from "../slices/cartSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCart, selectShippingAddress } from "../slices/cartSlice";
 import { Link } from "react-router-dom";
 
 export default function PlaceOrderScreen(props) {
@@ -22,8 +19,7 @@ export default function PlaceOrderScreen(props) {
   cart.taxPrice = toPrice(0.15 * cart.itemsPrice);
   cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
-  console.log(Number(10).toFixed(2));
-
+  const dispatch = useDispatch();
   const placeOrderHandler = () => {
     // TODO dispatch place order
   };

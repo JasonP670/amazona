@@ -3,6 +3,7 @@ const expressAsyncHandler = require("express-async-handler");
 const orderRouter = express.Router();
 
 const db = require("../models");
+const { isAuth } = require("../utils");
 const Order = db.Order;
 
 orderRouter.get(
@@ -23,12 +24,13 @@ orderRouter.get(
 
 orderRouter.post(
   "/",
+  isAuth,
   expressAsyncHandler(async (req, res) => {
     if (req.body.totalPrice === 0) {
       res.status(400).send({ message: "Cart is empty" });
     } else {
       const order = await Order.create({
-        UserId: req.body.userId,
+        UserId: req.user.id,
         address_id: req.body.addressId,
         items_price: req.body.itemsPrice,
         shipping_price: req.body.shippingPrice,

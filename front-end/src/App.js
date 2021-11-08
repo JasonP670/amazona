@@ -3,11 +3,7 @@ import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-import {
-  clearCart,
-  removeShippingAddress,
-  selectShoppingCart,
-} from "./slices/cartSlice";
+import { removeShippingAddress, selectShoppingCart } from "./slices/cartSlice";
 import { useSelector } from "react-redux";
 import SigninScreen from "./screens/SigninScreen";
 import { selectUserData, signout } from "./slices/userSlice";
@@ -27,7 +23,6 @@ function App() {
   const dispatch = useDispatch();
   const signoutHandler = () => {
     dispatch(signout());
-    dispatch(clearCart());
     dispatch(removeShippingAddress());
   };
   return (

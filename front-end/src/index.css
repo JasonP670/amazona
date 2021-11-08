@@ -67,6 +67,13 @@ a:hover {
   color: #ff8000;
 }
 
+a.checkout {
+  color: #ff8000;
+}
+
+a.checkout:hover {
+  color: #203040;
+}
 ul {
   padding: 0;
   margin: 0;
@@ -137,6 +144,12 @@ a.brand {
 .row.top {
   align-items: flex-start;
 }
+.row.center {
+  justify-content: center;
+}
+.row.start {
+  justify-content: flex-start;
+}
 .col-1 {
   flex: 1 1 25rem;
 }
@@ -146,9 +159,6 @@ a.brand {
 
 .min-30 {
   min-width: 30rem;
-}
-.row.center {
-  justify-content: center;
 }
 
 /* Image */
@@ -266,6 +276,10 @@ img.large {
   margin: 1rem 0;
 }
 
+.form [type="radio"] {
+  margin-right: 2rem;
+}
+
 /* Dropdown */
 .dropdown {
   display: inline-block;
@@ -302,3 +316,40 @@ img.large {
   border-top-color: #f08000;
   color: #f08000;
 }
+
+/* Buttons */
+/* button.info {
+  color: #203040;
+  border: none;
+}
+button.info:hover {
+  color: #ff8000;
+}
+
+.Button.info {
+  color: #203040;
+  border: none;
+  font-size: 1.6rem;
+}
+
+.Button.info:hover {
+  background-color: transparent;
+}
+
+.Button.info > i {
+  margin-right: 1.5rem;
+} */
+
+/* .address-dialog > .TextField {
+  width: 100%;
+  padding-bottom: 2rem;
+  font-size: 2.6rem;
+  color: green;
+}
+.address-dialog > .TextField::-webkit-input-placeholder {
+  color: green;
+}
+
+.DialogActions {
+  cursor: pointer;
+} */

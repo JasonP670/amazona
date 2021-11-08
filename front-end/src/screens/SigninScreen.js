@@ -30,11 +30,13 @@ export default function SigninScreen(props) {
     dispatch(signin({ email, password }));
     // dispatch(signin(email, password));
   };
+
   useEffect(() => {
     if (userInfo) {
       props.history.push(redirect);
     }
   }, [userInfo, props.history, redirect]);
+
   return (
     <div>
       <form className="form" onSubmit={submitHandler}>

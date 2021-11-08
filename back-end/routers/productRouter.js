@@ -25,7 +25,6 @@ productRouter.get(
     const product = await Product.findByPk(req.params.id);
 
     if (product) {
-      console.log(product);
       res.send(product);
     } else {
       res.status(404).send({ message: "Product not found" });

@@ -24,12 +24,37 @@ export const register = createAsyncThunk(
   }
 );
 
+export const getAddresses = createAsyncThunk(
+  "user/getAddresses",
+  async ({ token, userId }) => {
+    const { data } = await Axios.get(`/api/users/address/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  }
+);
+
+export const createAddress = createAsyncThunk(
+  "user/createAddress",
+  async (token) => {
+    const { data } = await Axios.get(`/api/users/address`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  }
+);
+
 const options = {
   name: "user",
   initialState: {
     userData: localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
       : null,
+    addresses: [],
     error: false,
     loading: false,
   },
@@ -68,12 +93,26 @@ const options = {
       state.error = true;
       state.loading = false;
     },
+    [getAddresses.pending]: (state, action) => {
+      state.error = false;
+      state.loading = true;
+    },
+    [getAddresses.fulfilled]: (state, action) => {
+      state.error = false;
+      state.loading = false;
+      state.addresses = action.payload;
+    },
+    [getAddresses.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 };
 
 const userSlice = createSlice(options);
 export default userSlice.reducer;
 export const selectUserData = (state) => state.user.userData;
+export const selectUserAddress = (state) => state.user.addresses;
 export const selectUserLoading = (state) => state.user.loading;
 export const selectUserError = (state) => state.user.error;
 export const { signout } = userSlice.actions;

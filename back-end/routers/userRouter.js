@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const userRouter = express.Router();
 
 const db = require("../models");
-const generateToken = require("../utils");
+const { generateToken, isAuth } = require("../utils");
 const User = db.User;
 const UserAddress = db.User_address;
 
@@ -46,18 +46,14 @@ userRouter.post(
   "/register",
   expressAsyncHandler(async (req, res) => {
     const checkExist = await User.findOne({ where: { email: req.body.email } });
-    console.log(checkExist);
     if (checkExist) {
       res.status(400).send({ message: "Entry already exists with that email" });
     } else {
-      console.log("made it through");
       const user = await User.create({
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
       });
-      console.log("New users id: ", user.id);
-      console.log(user);
       res.send({
         id: user.id,
         name: user.name,
@@ -71,44 +67,51 @@ userRouter.post(
 
 userRouter.get(
   "/address",
+  isAuth,
   expressAsyncHandler(async (req, res) => {
-    UserAddress.findAll().then((address) => res.json(address));
+    if (req.user.isAdmin) {
+      UserAddress.findAll().then((address) => res.json(address));
+    } else {
+      res.status(401).json({ message: "Not Authorized" });
+    }
   })
 );
 
 userRouter.get(
   "/address/:id",
+  isAuth,
   expressAsyncHandler(async (req, res) => {
-    UserAddress.findAll({
-      include: [
-        {
-          model: User,
-          where: { id: req.params.id },
-        },
-      ],
-    }).then((results) => {
-      res.send(results);
-    });
+    if (req.user.id === Number(req.params.id)) {
+      UserAddress.findAll({
+        include: [
+          {
+            model: User,
+            where: { id: req.params.id },
+          },
+        ],
+      }).then((results) => {
+        res.send(results);
+      });
+    } else {
+      res.status(401).json({ message: "Not Authorized" });
+    }
   })
 );
 
 userRouter.post(
   "/address",
+  isAuth,
   expressAsyncHandler(async (req, res) => {
-    const checkExist = await User.findOne({ where: { id: req.body.userId } });
-    if (!checkExist) {
-      res.status(404).send({ message: "That user doesn't seem to exist" });
-    }
+    console.log(req.user);
     const address = await UserAddress.create({
-      UserId: req.body.userId,
-      full_name: req.body.fullName,
+      UserId: req.user.id,
+      full_name: req.user.name,
       address_line1: req.body.addressLine1,
       address_line2: req.body.addressLine2,
       city: req.body.city,
       postal_code: req.body.postalCode,
       country: req.body.country,
     });
-    console.log(address);
     res.status(200).send({
       id: address.id,
       fullName: address.full_name,
