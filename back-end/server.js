@@ -10,13 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const userRouter = require("./routers/userRouter");
 const productRouter = require("./routers/productRouter");
-
-app.get("/", (req, res) => {
-  res.send({ message: "Hello World" });
-});
+const orderRouter = require("./routers/orderRouter");
 
 app.use("/api/users", userRouter);
 app.use("/api/products", productRouter);
+app.use("/api/order", orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
