@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Order.belongsTo(models.User, { foreignKey: "id" });
+      // Order.belongsTo(models.User, { foreignKey: "id" });
       Order.belongsToMany(models.Product, {
         through: "Product_order_xrefs",
         foreignKey: "order_id",
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Order.init(
     {
-      user_id: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
       address_id: DataTypes.INTEGER,
       items_price: DataTypes.INTEGER,
       shipping_price: DataTypes.INTEGER,

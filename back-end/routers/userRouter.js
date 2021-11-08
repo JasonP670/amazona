@@ -100,7 +100,7 @@ userRouter.post(
       res.status(404).send({ message: "That user doesn't seem to exist" });
     }
     const address = await UserAddress.create({
-      user_id: req.body.userId,
+      UserId: req.body.userId,
       full_name: req.body.fullName,
       address_line1: req.body.addressLine1,
       address_line2: req.body.addressLine2,

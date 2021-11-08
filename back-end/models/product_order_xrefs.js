@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Product_order_xrefs.belongsTo(models.Product, { foreignKey: "id" });
-      Product_order_xrefs.belongsTo(models.Order, { foreignKey: "id" });
+      // Product_order_xrefs.belongsTo(models.Order, { foreignKey: "id" });
     }
   }
   Product_order_xrefs.init(

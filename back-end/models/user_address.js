@@ -10,14 +10,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User_address.belongsTo(models.User, {
-        foreignKey: "user_id",
-        as: "user",
+        foreignKey: "UserId",
       });
     }
   }
   User_address.init(
     {
-      user_id: { type: DataTypes.INTEGER, allowNull: false },
+      UserId: { type: DataTypes.INTEGER, allowNull: false },
       full_name: { type: DataTypes.STRING, allowNull: false },
       address_line1: { type: DataTypes.STRING, allowNull: false },
       address_line2: { type: DataTypes.STRING },
