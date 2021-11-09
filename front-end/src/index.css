@@ -317,6 +317,14 @@ img.large {
   color: #f08000;
 }
 
+/* Modal */
+.MuiInputBase-input,
+.MuiOutlinedInput-input,
+.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input,
+.xxx {
+  font-size: 1.6rem;
+}
+
 /* Buttons */
 /* button.info {
   color: #203040;

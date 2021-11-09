@@ -4,6 +4,7 @@ const data = require("../data");
 const bcrypt = require("bcryptjs");
 
 const userRouter = express.Router();
+const addressRouter = require("./addressRouter");
 
 const db = require("../models");
 const { generateToken, isAuth } = require("../utils");
@@ -65,63 +66,53 @@ userRouter.post(
   })
 );
 
-userRouter.get(
-  "/address",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    if (req.user.isAdmin) {
-      UserAddress.findAll().then((address) => res.json(address));
-    } else {
-      res.status(401).json({ message: "Not Authorized" });
-    }
-  })
-);
+userRouter.use("/address", addressRouter);
 
-userRouter.get(
-  "/address/:id",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    if (req.user.id === Number(req.params.id)) {
-      UserAddress.findAll({
-        include: [
-          {
-            model: User,
-            where: { id: req.params.id },
-          },
-        ],
-      }).then((results) => {
-        res.send(results);
-      });
-    } else {
-      res.status(401).json({ message: "Not Authorized" });
-    }
-  })
-);
+// userRouter.get(
+//   "/address/:id",
+//   isAuth,
+//   expressAsyncHandler(async (req, res) => {
+//     if (req.user.id === Number(req.params.id)) {
+//       UserAddress.findAll({
+//         include: [
+//           {
+//             model: User,
+//             where: { id: req.params.id },
+//           },
+//         ],
+//       }).then((results) => {
+//         res.send(results);
+//       });
+//     } else {
+//       res.status(401).json({ message: "Not Authorized" });
+//     }
+//   })
+// );
 
-userRouter.post(
-  "/address",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    console.log(req.user);
-    const address = await UserAddress.create({
-      UserId: req.user.id,
-      full_name: req.user.name,
-      address_line1: req.body.addressLine1,
-      address_line2: req.body.addressLine2,
-      city: req.body.city,
-      postal_code: req.body.postalCode,
-      country: req.body.country,
-    });
-    res.status(200).send({
-      id: address.id,
-      fullName: address.full_name,
-      addressLine1: address.address_line1,
-      addressLine2: address.address_line2,
-      city: address.city,
-      postalCode: address.postal_code,
-      country: address.country,
-    });
-  })
-);
+// userRouter.post(
+//   "/address",
+//   isAuth,
+//   expressAsyncHandler(async (req, res) => {
+//     console.log(req.user);
+//     const address = await UserAddress.create({
+//       UserId: req.user.id,
+//       full_name: req.body.fullName || req.user.name,
+//       address_line1: req.body.addressLine1,
+//       address_line2: req.body.addressLine2,
+//       city: req.body.city,
+//       postal_code: req.body.postalCode,
+//       country: req.body.country,
+//     });
+//     res.status(200).send({
+//       id: address.id,
+//       fullName: address.full_name,
+//       addressLine1: address.address_line1,
+//       addressLine2: address.address_line2,
+//       city: address.city,
+//       postalCode: address.postal_code,
+//       country: address.country,
+//     });
+//   })
+// );
 
 module.exports = userRouter;

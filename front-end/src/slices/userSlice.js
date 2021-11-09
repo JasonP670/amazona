@@ -29,7 +29,7 @@ export const getAddresses = createAsyncThunk(
   async ({ token, userId }) => {
     const { data } = await Axios.get(`/api/users/address/${userId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
       },
     });
     return data;
@@ -38,13 +38,32 @@ export const getAddresses = createAsyncThunk(
 
 export const createAddress = createAsyncThunk(
   "user/createAddress",
-  async (token) => {
-    const { data } = await Axios.get(`/api/users/address`, {
+  async ({
+    token,
+    fullName,
+    addressLine1,
+    addressLine2,
+    city,
+    postalCode,
+    country,
+  }) => {
+    const body = {
+      fullName,
+      addressLine1,
+      addressLine2,
+      city,
+      postalCode,
+      country,
+    };
+    console.log(token);
+    console.log(body);
+
+    const { data } = await Axios.post(`/api/users/address/`, body, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${token}`,
       },
     });
-    return data;
+    console.log(data);
   }
 );
 

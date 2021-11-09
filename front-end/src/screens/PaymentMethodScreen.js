@@ -6,9 +6,10 @@ import { savePaymentMethod, selectShippingAddress } from "../slices/cartSlice";
 
 export default function PaymentMethodScreen(props) {
   const shippingInfo = useSelector(selectShippingAddress);
-  if (Object.keys(shippingInfo).length === 0) {
+  if (shippingInfo.length === 0) {
     props.history.push("/shipping");
   }
+  console.log(shippingInfo);
   const [paymentMethod, setPaymentMethod] = useState("PayPal");
   const dispatch = useDispatch();
   const submitHandler = (e) => {
