@@ -5,11 +5,28 @@ const orderRouter = express.Router();
 const db = require("../models");
 const { isAuth } = require("../utils");
 const Order = db.Order;
+const ProductOrder = db.ProductOrder;
 
 orderRouter.get(
   "/",
   expressAsyncHandler(async (req, res) => {
     const orders = await Order.findAll();
+    const products = await ProductOrder.findAll();
+    res.json({ orders, products });
+  })
+);
+orderRouter.get(
+  "/abc",
+  expressAsyncHandler(async (req, res) => {
+    const orders = await ProductOrder.findAll({
+      include: [
+        {
+          model: Order,
+          as: "order",
+          attributes: ["id", "status", "createdAt", "updatedAt"],
+        },
+      ],
+    });
     res.json(orders);
   })
 );
@@ -29,6 +46,7 @@ orderRouter.post(
     if (req.body.totalPrice === 0) {
       res.status(400).send({ message: "Cart is empty" });
     } else {
+      console.log(req.user);
       const order = await Order.create({
         UserId: req.user.id,
         address_id: req.body.addressId,
@@ -39,6 +57,15 @@ orderRouter.post(
         is_paid: req.body.isPaid,
         paid_at: req.body.paidAt,
       });
+
+      for (let i = 0; i < req.body.cart.length; i++) {
+        await ProductOrder.create({
+          order_id: order.id,
+          product_id: req.body.cart[i].product,
+          quantity: req.body.cart[i].qty,
+          price: req.body.cart[i].price,
+        });
+      }
       res.send(order);
     }
   })

@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CheckoutSteps from "../components/CheckoutSteps";
 import LoadingBox from "../components/LoadingBox";
-import CustomizedDialogs from "../components/CustomizedDialogs";
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Button,
   TextField,
@@ -22,13 +20,14 @@ import {
   getAddresses,
   selectUserAddress,
   selectUserData,
+  selectUserLoading,
 } from "../slices/userSlice";
-import RegistrationForm from "../components/RegistrationForm";
 import { useHistory } from "react-router-dom";
 
 export default function ShippingAddressScreen(props) {
   const userInfo = useSelector(selectUserData);
   const userAddresses = useSelector(selectUserAddress);
+  const loading = useSelector(selectUserLoading);
   const { cart } = useSelector(selectCart);
   if (!userInfo || cart.length === 0) {
     props.history.push("/signin");
@@ -72,9 +71,7 @@ export default function ShippingAddressScreen(props) {
     console.log(fullName);
   };
   const handleSave = () => {
-    // TODO dispatch save new address
     const token = userInfo.token;
-    // dispatch(createAddress({ token, values }));
 
     dispatch(
       createAddress({
@@ -99,7 +96,7 @@ export default function ShippingAddressScreen(props) {
         <div>
           <h1>Shipping Address</h1>
         </div>
-        {userAddresses.length < 1 ? (
+        {loading ? (
           <LoadingBox />
         ) : (
           <>
@@ -110,8 +107,7 @@ export default function ShippingAddressScreen(props) {
                     type="radio"
                     id={userAddress.id}
                     name="shippingAddress"
-                    value={userAddress.id}
-                    onChange={(e) => setSelectedAddress(e.target.value)}
+                    onChange={(e) => setSelectedAddress(userAddress)}
                   />
                   <label htmlFor={userAddress.id}>
                     <strong>{userAddress.full_name}</strong>,{" "}
@@ -239,99 +235,6 @@ export default function ShippingAddressScreen(props) {
           </DialogActions>
         </div>
       </Dialog>
-
-      {/* <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          Open form dialog
-        </Button>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              To subscribe to this website, please enter your email address
-              here. We will send updates occasionally.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Email Address"
-              type="email"
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleClose}>Subscribe</Button>
-          </DialogActions>
-        </Dialog>
-      </div> */}
-
-      {/* <form className="form" onSubmit={submitHandler}>
-        <div>
-          <label htmlFor="fullName">Full Name</label>
-          <input
-            type="text"
-            id="fullName"
-            placeholder="Enter Full Name"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            required
-          ></input>
-        </div>
-
-        <div>
-          <label htmlFor="address">Address</label>
-          <input
-            type="text"
-            id="address"
-            placeholder="Enter Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="city">City</label>
-          <input
-            type="text"
-            id="city"
-            placeholder="Enter City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="postalCode">Postal Code</label>
-          <input
-            type="text"
-            id="postalCode"
-            placeholder="Enter Postal Code"
-            value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <label htmlFor="country">Country</label>
-          <input
-            type="text"
-            id="country"
-            placeholder="Enter Country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            required
-          ></input>
-        </div>
-        <div>
-          <label></label>
-          <button className="primary" type="submit">
-            Continue
-          </button>
-        </div>
-      </form> */}
     </div>
   );
 }

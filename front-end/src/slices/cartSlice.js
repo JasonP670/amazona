@@ -16,6 +16,22 @@ export const addToCart = createAsyncThunk(
   }
 );
 
+// export const placeOrder = createAsyncThunk(
+//   "cart/placeOrder",
+//   async ({ token, order }, thunkAPI) => {
+//     console.log(token);
+//     console.log(order);
+//     const { data } = await Axios.post("/api/orders", order, {
+//       headers: {
+//         authorization: `Bearer ${token}`,
+//       },
+//     });
+
+//     console.log(data);
+//     return data;
+//   }
+// );
+
 const initialState = {
   cart: localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart")).cart
@@ -37,10 +53,22 @@ const options = {
   initialState,
   reducers: {
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter((x) => x.product !== action.payload);
+      state.cart = state.cart.filter(
+        (x) => x.product !== action.payload.product
+      );
+      state.itemsPrice -= action.payload.price * action.payload.qty;
+      state.shippingPrice = state.itemsPrice < 100 ? 0 : 10;
+      state.taxPrice = state.itemsPrice * 0.2;
+      state.totalPrice =
+        state.itemsPrice + state.shippingPrice + state.taxPrice;
+      console.log(action.payload);
     },
     clearCart: (state, action) => {
       localStorage.removeItem("persist:cart");
+      state.itemsPrice = 0;
+      state.shippingPrice = 0;
+      state.taxPrice = 0;
+      state.totalPrice = 0;
       state.cart = [];
     },
     saveShippingAddress: (state, action) => {
@@ -69,6 +97,13 @@ const options = {
       } else {
         state.cart.push(action.payload);
       }
+
+      const toPrice = (num) => Number(num.toFixed(2));
+      state.itemsPrice += toPrice(item.price * item.qty);
+      state.shippingPrice = state.itemsPrice < 100 ? 0 : 10;
+      state.taxPrice = toPrice(0.15 * state.itemsPrice);
+      state.totalPrice =
+        state.itemsPrice + state.shippingPrice + state.taxPrice;
     },
     [addToCart.rejected]: (state, action) => {
       state.error = true;

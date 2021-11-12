@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       // Order.belongsTo(models.User, { foreignKey: "id" });
       Order.belongsToMany(models.Product, {
-        through: "Product_order_xrefs",
+        through: "ProductOrder",
         foreignKey: "order_id",
       });
     }
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       UserId: DataTypes.INTEGER,
       address_id: DataTypes.INTEGER,
-      items_price: DataTypes.INTEGER,
-      shipping_price: DataTypes.INTEGER,
-      tax_price: DataTypes.INTEGER,
-      total_price: DataTypes.INTEGER,
+      items_price: DataTypes.DECIMAL(10, 2),
+      shipping_price: DataTypes.DECIMAL(10, 2),
+      tax_price: DataTypes.DECIMAL(10, 2),
+      total_price: DataTypes.DECIMAL(10, 2),
       is_paid: DataTypes.BOOLEAN,
       paid_at: DataTypes.DATE,
       is_delivered: DataTypes.BOOLEAN,

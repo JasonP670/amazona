@@ -3,6 +3,7 @@ import productListReducer from "./slices/productListSlice";
 import productDetailsReducer from "./slices/productDetailsSlice";
 import cartReducer from "./slices/cartSlice";
 import userReducer from "./slices/userSlice";
+import orderReducer from "./slices/orderSlice";
 
 import {
   persistReducer,
@@ -14,21 +15,13 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import userAddressReducer from "./slices/userAddressSlice";
 
 const persistConfig = {
   key: "cart",
   storage,
 };
 
-// const userPersistConfig = {
-//   key: "user",
-//   storage,
-//   whitelist: ["token"],
-// };
-
 const persistedCartReducer = persistReducer(persistConfig, cartReducer);
-// const persistedUserReducer = persistReducer(userPersistConfig, userReducer);
 
 const store = configureStore({
   reducer: {
@@ -36,7 +29,7 @@ const store = configureStore({
     productDetails: productDetailsReducer,
     cart: persistedCartReducer,
     user: userReducer,
-    // userSignin: userSigninReducer,
+    order: orderReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: {

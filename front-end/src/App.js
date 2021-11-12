@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import ShippingAddressScreen from "./screens/ShippingAddressScreen";
 import PaymentMethodScreen from "./screens/PaymentMethodScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import { clearCart } from "./slices/cartSlice";
 
 function App() {
   const cart = useSelector(selectShoppingCart);
@@ -25,6 +26,11 @@ function App() {
     dispatch(signout());
     dispatch(removeShippingAddress());
   };
+
+  const clear = () => {
+    dispatch(clearCart());
+  };
+
   return (
     <BrowserRouter>
       <div className="grid-container">
@@ -34,6 +40,7 @@ function App() {
               Amazona
             </Link>
           </div>
+          <button onClick={clear}>Clear Cart </button>
           <div>
             <Link to="/cart" alt="">
               Cart

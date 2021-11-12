@@ -32,7 +32,7 @@ export default function PaymentMethodScreen(props) {
               name="paymentMethod"
               required
               checked
-              onChange={(e) => setPaymentMethod(e.target.value)}
+              onChange={(e) => console.log(e.target.value)}
             />
             <label htmlFor="paypal">PayPal</label>
           </div>

@@ -1,28 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCart, selectShippingAddress } from "../slices/cartSlice";
+import {
+  selectCart,
+  selectShippingAddress,
+  clearCart,
+} from "../slices/cartSlice";
+import { selectOrderState } from "../slices/orderSlice";
+import { placeOrder } from "../slices/orderSlice";
 import { Link } from "react-router-dom";
+import { selectUserData } from "../slices/userSlice";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
 
 export default function PlaceOrderScreen(props) {
   const shippingAddress = useSelector(selectShippingAddress);
   const cart = useSelector(selectCart);
-
+  const { token } = useSelector(selectUserData);
+  const { errorMessage, error, loading, success, order } =
+    useSelector(selectOrderState);
   if (!cart.paymentMethod) {
     props.history.push("/payment");
   }
 
-  const toPrice = (num) => Number(num.toFixed(2));
-
-  cart.itemsPrice = toPrice(cart.cart.reduce((a, c) => a + c.qty * c.price, 0));
-  cart.shippingPrice = cart.itemsPrice > 100 ? toPrice(10) : toPrice(0);
-  cart.taxPrice = toPrice(0.15 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
-
   const dispatch = useDispatch();
   const placeOrderHandler = () => {
-    // TODO dispatch place order
+    const order = {
+      addressId: shippingAddress.id,
+      itemsPrice: cart.itemsPrice,
+      shippingPrice: cart.shippingPrice,
+      taxPrice: cart.taxPrice,
+      totalPrice: cart.totalPrice,
+      isPaid: true,
+      paidAt: new Date(),
+      cart: cart.cart,
+    };
+    dispatch(placeOrder({ token, order }));
   };
+
+  useEffect(() => {
+    if (success) {
+      props.history.push(`/order/${order.id}`);
+      dispatch(clearCart());
+    }
+  }, [dispatch, success, order, props.history]);
 
   return (
     <div>
@@ -35,11 +56,12 @@ export default function PlaceOrderScreen(props) {
                 <h2>Shipping</h2>
                 <p>
                   <strong>Name: </strong>
-                  {shippingAddress.fullName}
+                  {shippingAddress.full_name}
                   <br />
                   <strong>Address: </strong>
-                  {shippingAddress.address}, {shippingAddress.city},{" "}
-                  {shippingAddress.postalCode}, {shippingAddress.country}
+                  {shippingAddress.address_line1},{" "}
+                  {shippingAddress.address_line2}, {shippingAddress.city},{" "}
+                  {shippingAddress.postal_code}, {shippingAddress.country}
                 </p>
               </div>
             </li>
@@ -126,6 +148,10 @@ export default function PlaceOrderScreen(props) {
                   Place Order
                 </button>
               </li>
+              {loading && <LoadingBox variant="small"></LoadingBox>}
+              {error && (
+                <MessageBox variant="danger">{errorMessage}</MessageBox>
+              )}
             </ul>
           </div>
         </div>

@@ -21,8 +21,8 @@ export default function CartScreen(props) {
     }
   }, [dispatch, productId, qty]);
 
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+  const removeFromCartHandler = (item) => {
+    dispatch(removeFromCart(item));
   };
 
   const checkoutHandler = () => {
@@ -70,7 +70,7 @@ export default function CartScreen(props) {
                   <div>
                     <button
                       type="button"
-                      onClick={() => removeFromCartHandler(item.product)}
+                      onClick={() => removeFromCartHandler(item)}
                     >
                       Delete
                     </button>
