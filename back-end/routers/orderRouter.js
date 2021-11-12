@@ -33,9 +33,13 @@ orderRouter.get(
 
 orderRouter.get(
   "/:id",
+  isAuth,
   expressAsyncHandler(async (req, res) => {
     const order = await Order.findByPk(req.params.id);
-    res.json(order);
+    if (order) {
+      res.send(order);
+    }
+    res.status(404).send({ message: "Order not found" });
   })
 );
 
