@@ -229,6 +229,10 @@ img.large {
   color: #a02020;
   background-color: #ffe0e0e0;
 }
+.alert-success {
+  background-color: hsl(120, 85%, 85%);
+  color: #20a020;
+}
 
 /* Spinner */
 .loader {
@@ -324,40 +328,3 @@ img.large {
 .xxx {
   font-size: 1.6rem;
 }
-
-/* Buttons */
-/* button.info {
-  color: #203040;
-  border: none;
-}
-button.info:hover {
-  color: #ff8000;
-}
-
-.Button.info {
-  color: #203040;
-  border: none;
-  font-size: 1.6rem;
-}
-
-.Button.info:hover {
-  background-color: transparent;
-}
-
-.Button.info > i {
-  margin-right: 1.5rem;
-} */
-
-/* .address-dialog > .TextField {
-  width: 100%;
-  padding-bottom: 2rem;
-  font-size: 2.6rem;
-  color: green;
-}
-.address-dialog > .TextField::-webkit-input-placeholder {
-  color: green;
-}
-
-.DialogActions {
-  cursor: pointer;
-} */

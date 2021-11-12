@@ -3,17 +3,27 @@ import Axios from "axios";
 
 export const placeOrder = createAsyncThunk(
   "cart/placeOrder",
-  async ({ token, order }, { rejectWithValue }) => {
+  async (order, { rejectWithValue }) => {
     try {
-      const { data } = await Axios.post("/api/orders", order, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
+      const { data } = await Axios.post("/api/orders", order);
       return data;
     } catch (err) {
       console.log(err.message);
       return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const detailsOrder = createAsyncThunk(
+  "cart/detailsOrder",
+  async (orderId) => {
+    try {
+      const { data } = await Axios.get(`/api/orders/${orderId}`);
+      return data;
+    } catch (err) {
+      return err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
     }
   }
 );
@@ -44,8 +54,24 @@ const options = {
     [placeOrder.rejected]: (state, action) => {
       state.errorMessage = action.payload;
       state.error = true;
-
       state.loading = false;
+    },
+    [detailsOrder.pending]: (state) => {
+      state.loading = true;
+      state.error = false;
+      state.success = false;
+    },
+    [detailsOrder.fulfilled]: (state, action) => {
+      state.order = action.payload;
+      state.loading = false;
+      state.error = false;
+      state.success = false;
+    },
+    [detailsOrder.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
+      state.errorMessage = action.payload;
+      state.success = false;
     },
   },
 };

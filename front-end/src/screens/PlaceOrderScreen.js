@@ -6,19 +6,17 @@ import {
   selectShippingAddress,
   clearCart,
 } from "../slices/cartSlice";
-import { selectOrderState } from "../slices/orderSlice";
+import { selectOrderLoading, selectOrderState } from "../slices/orderSlice";
 import { placeOrder } from "../slices/orderSlice";
 import { Link } from "react-router-dom";
-import { selectUserData } from "../slices/userSlice";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 export default function PlaceOrderScreen(props) {
   const shippingAddress = useSelector(selectShippingAddress);
   const cart = useSelector(selectCart);
-  const { token } = useSelector(selectUserData);
-  const { errorMessage, error, loading, success, order } =
-    useSelector(selectOrderState);
+  const { errorMessage, error, success, order } = useSelector(selectOrderState);
+  const loading = useSelector(selectOrderLoading);
   if (!cart.paymentMethod) {
     props.history.push("/payment");
   }
@@ -31,14 +29,16 @@ export default function PlaceOrderScreen(props) {
       shippingPrice: cart.shippingPrice,
       taxPrice: cart.taxPrice,
       totalPrice: cart.totalPrice,
+      paymentMethod: cart.paymentMethod,
       isPaid: false,
       paidAt: new Date(),
       cart: cart.cart,
     };
-    dispatch(placeOrder({ token, order }));
+    dispatch(placeOrder(order));
   };
 
   useEffect(() => {
+    console.log(success);
     if (success) {
       props.history.push(`/order/${order.id}`);
       dispatch(clearCart());

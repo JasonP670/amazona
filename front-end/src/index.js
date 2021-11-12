@@ -8,6 +8,22 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 
+import axios from "axios";
+
+const { token } = JSON.parse(localStorage.getItem("user"));
+
+axios.interceptors.request.use(
+  (request) => {
+    if (request.url.includes("orders")) {
+      request.headers["authorization"] = `Bearer ${token}`;
+    }
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 let persistor = persistStore(store);
 
 ReactDOM.render(

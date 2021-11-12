@@ -6,6 +6,7 @@ const db = require("../models");
 const { isAuth } = require("../utils");
 const Order = db.Order;
 const ProductOrder = db.ProductOrder;
+const Product = db.Product;
 
 orderRouter.get(
   "/",
@@ -35,7 +36,10 @@ orderRouter.get(
   "/:id",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const order = await Order.findByPk(req.params.id);
+    const order = await Order.findOne({
+      where: { id: req.params.id },
+      include: Product,
+    });
     if (order) {
       res.send(order);
     }
@@ -50,7 +54,6 @@ orderRouter.post(
     if (req.body.totalPrice === 0) {
       res.status(400).send({ message: "Cart is empty" });
     } else {
-      console.log(req.user);
       const order = await Order.create({
         UserId: req.user.id,
         address_id: req.body.addressId,
@@ -58,6 +61,7 @@ orderRouter.post(
         shipping_price: req.body.shippingPrice,
         tax_price: req.body.taxPrice,
         total_price: req.body.totalPrice,
+        payment_method: req.body.paymentMethod,
         is_paid: req.body.isPaid,
         paid_at: req.body.paidAt,
       });
@@ -70,7 +74,14 @@ orderRouter.post(
           price: req.body.cart[i].price,
         });
       }
-      res.send(order);
+
+      const found = await Order.findOne({
+        where: { id: order.id },
+        include: Product,
+      });
+      if (found) {
+        res.send(found);
+      }
     }
   })
 );

@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       shipping_price: DataTypes.DECIMAL(10, 2),
       tax_price: DataTypes.DECIMAL(10, 2),
       total_price: DataTypes.DECIMAL(10, 2),
+      payment_method: DataTypes.STRING,
       is_paid: DataTypes.BOOLEAN,
       paid_at: DataTypes.DATE,
       is_delivered: DataTypes.BOOLEAN,
