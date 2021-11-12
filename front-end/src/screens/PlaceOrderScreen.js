@@ -31,7 +31,7 @@ export default function PlaceOrderScreen(props) {
       shippingPrice: cart.shippingPrice,
       taxPrice: cart.taxPrice,
       totalPrice: cart.totalPrice,
-      isPaid: true,
+      isPaid: false,
       paidAt: new Date(),
       cart: cart.cart,
     };
