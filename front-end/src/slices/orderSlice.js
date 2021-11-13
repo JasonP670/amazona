@@ -28,18 +28,42 @@ export const detailsOrder = createAsyncThunk(
   }
 );
 
+export const payOrder = createAsyncThunk(
+  "cart/payOrder",
+  async ({ order, paymentResult }) => {
+    console.log(paymentResult);
+    try {
+      const { data } = await Axios.put(
+        `/api/orders/${order.id}/pay`,
+        paymentResult
+      );
+      return data;
+    } catch (err) {
+      return err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    }
+  }
+);
+
 const initialState = {
   order: {},
   loading: false,
   success: false,
   error: false,
+  successPay: false,
+  errorPay: false,
   errorMessage: "",
 };
 
 const options = {
   name: "order",
   initialState,
-  reducers: {},
+  reducers: {
+    order_pay_reset: (state, action) => {
+      state.successPay = false;
+    },
+  },
   extraReducers: {
     [placeOrder.pending]: (state, action) => {
       state.error = false;
@@ -73,6 +97,17 @@ const options = {
       state.errorMessage = action.payload;
       state.success = false;
     },
+    [payOrder.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [payOrder.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.successPay = true;
+    },
+    [payOrder.rejected]: (state, action) => {
+      state.error = action.payload;
+      state.errorPay = true;
+    },
   },
 };
 
@@ -83,3 +118,4 @@ export const selectOrder = (state) => state.order.order;
 export const selectOrderLoading = (state) => state.order.loading;
 export const selectOrderSuccess = (state) => state.order.success;
 export const selectOrderError = (state) => state.order.error;
+export const { order_pay_reset } = orderSlice.actions;
