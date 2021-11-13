@@ -47,7 +47,7 @@ const options = {
     },
     [placeOrder.fulfilled]: (state, action) => {
       state.error = false;
-      state.loading = false;
+      state.loading = true;
       state.success = true;
       state.order = action.payload;
     },
