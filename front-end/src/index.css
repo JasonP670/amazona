@@ -230,8 +230,8 @@ img.large {
   background-color: #ffe0e0e0;
 }
 .alert-success {
-  background-color: hsl(120, 85%, 85%);
   color: #20a020;
+  background-color: #eeffe0;
 }
 
 /* Spinner */
