@@ -10,11 +10,10 @@ import { persistStore } from "redux-persist";
 
 import axios from "axios";
 
-const { token } = JSON.parse(localStorage.getItem("user"));
-
 axios.interceptors.request.use(
   (request) => {
     if (request.url.includes("orders")) {
+      const { token } = JSON.parse(localStorage.getItem("user"));
       request.headers["authorization"] = `Bearer ${token}`;
     }
     return request;
