@@ -38,7 +38,6 @@ export default function PlaceOrderScreen(props) {
   };
 
   useEffect(() => {
-    console.log(success);
     if (success) {
       props.history.push(`/order/${order.id}`);
       dispatch(clearCart());
