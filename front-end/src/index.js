@@ -12,7 +12,7 @@ import axios from "axios";
 
 axios.interceptors.request.use(
   (request) => {
-    if (request.url.includes("orders")) {
+    if (request.url.includes("orders") || request.url.includes("users")) {
       const { token } = JSON.parse(localStorage.getItem("user"));
       request.headers["authorization"] = `Bearer ${token}`;
     }
