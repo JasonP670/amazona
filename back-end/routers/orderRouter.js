@@ -7,6 +7,8 @@ const { isAuth } = require("../utils");
 const Order = db.Order;
 const ProductOrder = db.ProductOrder;
 const Product = db.Product;
+const User = db.User;
+const { User_address } = db;
 
 orderRouter.get(
   "/",
@@ -17,29 +19,14 @@ orderRouter.get(
   })
 );
 
-orderRouter.get(
-  "/:id",
-  isAuth,
-  expressAsyncHandler(async (req, res) => {
-    const order = await Order.findOne({
-      where: { id: req.params.id },
-      include: Product,
-    });
-    if (order) {
-      res.send(order);
-    } else {
-      res.status(404).send({ message: "Order not found" });
-    }
-  })
-);
-
 orderRouter.post(
   "/",
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    if (req.body.totalPrice === 0) {
+    if (req.body.totalPrice == 0) {
       res.status(400).send({ message: "Cart is empty" });
     } else {
+      console.log("new entry here");
       const order = await Order.create({
         UserId: req.user.id,
         address_id: req.body.addressId,
@@ -51,6 +38,8 @@ orderRouter.post(
         is_paid: req.body.isPaid,
         paid_at: req.body.paidAt,
       });
+      console.log("here1");
+      console.log(order);
 
       for (let i = 0; i < req.body.cart.length; i++) {
         await ProductOrder.create({
@@ -60,14 +49,44 @@ orderRouter.post(
           price: req.body.cart[i].price,
         });
       }
+      console.log("here2");
 
       const found = await Order.findOne({
         where: { id: order.id },
         include: Product,
       });
+      console.log("here3");
+      console.log(found);
       if (found) {
         res.send(found);
       }
+    }
+  })
+);
+
+orderRouter.get(
+  "/mine",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const orders = await Order.findAll({
+      where: { UserId: req.user.id },
+    });
+    res.send(orders);
+  })
+);
+
+orderRouter.get(
+  "/:id",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findOne({
+      where: { id: req.params.id, UserId: req.user.id },
+      include: [Product, User, User_address],
+    });
+    if (order) {
+      res.send(order);
+    } else {
+      res.status(404).send({ message: "Order not found" });
     }
   })
 );

@@ -8,6 +8,7 @@ const addressRouter = require("./addressRouter");
 
 const db = require("../models");
 const { generateToken, isAuth } = require("../utils");
+const { createUser } = require("../contexts/users");
 const User = db.User;
 const UserAddress = db.User_address;
 
@@ -50,11 +51,8 @@ userRouter.post(
     if (checkExist) {
       res.status(400).send({ message: "Entry already exists with that email" });
     } else {
-      const user = await User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8),
-      });
+      const { name, email, password: rawPassword } = req.body;
+      const user = await createUser({ name, email, rawPassword });
       res.send({
         id: user.id,
         name: user.name,
