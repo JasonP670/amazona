@@ -46,9 +46,24 @@ export const payOrder = createAsyncThunk(
   }
 );
 
+export const listOrderMine = createAsyncThunk(
+  "cart/listOrderMine",
+  async () => {
+    try {
+      const { data } = await Axios.get("/api/orders/mine");
+      return data;
+    } catch (err) {
+      return err.response && err.response.data.message
+        ? err.response.data.message
+        : err.message;
+    }
+  }
+);
+
 const initialState = {
   order: {},
-  loading: false,
+  orders: [],
+  loading: true,
   success: false,
   error: false,
   successPay: false,
@@ -108,6 +123,18 @@ const options = {
       state.error = action.payload;
       state.errorPay = true;
     },
+    [listOrderMine.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [listOrderMine.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.orders = action.payload;
+    },
+    [listOrderMine.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = true;
+      state.errorMessage = action.payload;
+    },
   },
 };
 
@@ -118,4 +145,5 @@ export const selectOrder = (state) => state.order.order;
 export const selectOrderLoading = (state) => state.order.loading;
 export const selectOrderSuccess = (state) => state.order.success;
 export const selectOrderError = (state) => state.order.error;
+export const selectMyOrderList = (state) => state.order.orders;
 export const { order_pay_reset } = orderSlice.actions;

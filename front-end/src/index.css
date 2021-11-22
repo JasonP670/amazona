@@ -115,6 +115,10 @@ button.block {
   width: 100%;
 }
 
+button.small {
+  font-size: 1.2rem;
+}
+
 /* Header */
 header a {
   color: white;
@@ -327,4 +331,25 @@ img.large {
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input,
 .xxx {
   font-size: 1.6rem;
+}
+
+/* Table */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table tbody tr:nth-last-of-type(odd) {
+  background-color: #f4f4f4f4;
+}
+
+.table td,
+.table th {
+  text-align: left;
+  border: 0.1rem solid #e4e4e4e4;
+  padding: 0.5rem;
+}
+
+.table button {
+  margin: 0 0.2rem;
 }
